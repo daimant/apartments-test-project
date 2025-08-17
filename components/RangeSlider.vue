@@ -41,6 +41,11 @@ const updateMax = (event: Event) => {
 
 <template>
   <div class="range-slider-container">
+    <div>
+      <span>от {{ min }}</span>
+      <span>до {{ max }}</span>
+    </div>
+
     <div class="range-slider">
       <input
         :value="modelValue.min"
@@ -61,26 +66,6 @@ const updateMax = (event: Event) => {
       <div class="range-track">
         <div class="range-fill" :style="fillStyle"></div>
       </div>
-    </div>
-
-    <div class="range-inputs">
-      <input
-        :value="modelValue.min"
-        type="number"
-        class="range-input"
-        :min="min"
-        :max="modelValue.max"
-        @input="updateMin"
-      />
-      <span class="range-separator">—</span>
-      <input
-        :value="modelValue.max"
-        type="number"
-        class="range-input"
-        :min="modelValue.min"
-        :max="max"
-        @input="updateMax"
-      />
     </div>
   </div>
 </template>
@@ -174,42 +159,5 @@ const updateMax = (event: Event) => {
 
 .max-input {
   z-index: 4;
-}
-
-.range-inputs {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.range-input {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-.range-input:focus {
-  outline: none;
-  border-color: var(--secondary-color);
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-}
-
-.range-separator {
-  color: var(--text-color);
-  font-weight: 500;
-}
-
-@media (max-width: 480px) {
-  .range-inputs {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .range-separator {
-    display: none;
-  }
 }
 </style>

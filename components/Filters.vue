@@ -83,36 +83,33 @@ const selectRooms = (rooms: number) => {
 
 .rooms-tabs {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
+  grid-template-columns: repeat(4, 44px);
+  gap: 1rem;
 }
 
 .room-tab {
-  background: var(--light-gray);
-  border: 1px solid var(--border-color);
-  padding: 0.75rem 0.5rem;
-  border-radius: var(--border-radius);
+  background: white;
+  padding: 0.6rem 0.75rem;
+  border-radius: 2rem;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: var(--transition);
   text-align: center;
+  border: none;
+  height: 2.75rem;
 }
 
 .room-tab:hover {
   background: #e9ecef;
-  border-color: var(--secondary-color);
 }
 
 .room-tab.active {
   background: var(--secondary-color);
   color: white;
-  border-color: var(--secondary-color);
 }
 
-
-.price-filter,
-.area-filter {
+.price-filter, .area-filter {
   margin-bottom: 2rem;
 }
 
