@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RangeSlider from "./RangeSlider.vue";
+import RangeSlider from "./components/RangeSlider.vue";
 
 const { filters } = storeToRefs(useApartmentsStore())
 const { resetFilters } = useApartmentsStore()
@@ -11,43 +11,43 @@ const selectRooms = (rooms: number) => {
 
 <template>
   <div class="filters-section">
-      <div class="rooms-filter">
-        <h4>Количество комнат</h4>
-        <div class="rooms-tabs">
-          <button
-            v-for="room in [1, 2, 3, 4]"
-            :key="room"
-            @click="selectRooms(room)"
-            :class="['room-tab', { active: filters.selectedRooms === room }]"
-          >
-            {{ room }}к
-          </button>
-        </div>
+    <div class="rooms-filter">
+      <h4>Количество комнат</h4>
+      <div class="rooms-tabs">
+        <button
+          v-for="room in [1, 2, 3, 4]"
+          :key="room"
+          @click="selectRooms(room)"
+          :class="['room-tab', { active: filters.selectedRooms === room }]"
+        >
+          {{ room }}к
+        </button>
       </div>
+    </div>
 
-      <div v-if='filters.priceRange' class="price-filter">
-        <h4>Стоимость квартиры, ₽</h4>
-        <RangeSlider
-          v-model="filters.priceRange"
-          :min="filters.priceRange.minLimit"
-          :max="filters.priceRange.maxLimit"
-          for-price
-        />
-      </div>
+    <div v-if='filters.priceRange' class="price-filter">
+      <h4>Стоимость квартиры, ₽</h4>
+      <RangeSlider
+        v-model="filters.priceRange"
+        :min="filters.priceRange.minLimit"
+        :max="filters.priceRange.maxLimit"
+        for-price
+      />
+    </div>
 
-      <div v-if="filters.areaRange" class="area-filter">
-        <h4>Площадь, м²</h4>
-        <RangeSlider
-          v-model="filters.areaRange"
-          :min="filters.areaRange.minLimit"
-          :max="filters.areaRange.maxLimit"
-        />
-      </div>
+    <div v-if="filters.areaRange" class="area-filter">
+      <h4>Площадь, м²</h4>
+      <RangeSlider
+        v-model="filters.areaRange"
+        :min="filters.areaRange.minLimit"
+        :max="filters.areaRange.maxLimit"
+      />
+    </div>
 
-      <!-- Кнопка сброса фильтров -->
-      <button @click="resetFilters" class="reset-filters-btn">
-        Сбросить параметры
-      </button>
+    <!-- Кнопка сброса фильтров -->
+    <button @click="resetFilters" class="reset-filters-btn">
+      Сбросить параметры
+    </button>
   </div>
 </template>
 
@@ -55,9 +55,8 @@ const selectRooms = (rooms: number) => {
 .filters-section {
   position: sticky;
   top: 2rem;
-  background: white;
+  background: linear-gradient(135deg, rgba(174, 228, 178, 0.3) 0%, rgba(149, 208, 161, 0.3) 100%);
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
   padding: 1.5rem;
 }
 
@@ -105,7 +104,7 @@ const selectRooms = (rooms: number) => {
 }
 
 .room-tab.active {
-  background: var(--secondary-color);
+  background: var(--primary-color);
   color: white;
 }
 

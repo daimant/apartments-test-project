@@ -4,38 +4,27 @@ import type { IRangeSliderProps, IRangeValue } from "~/types/range-slider";
 
 const props = withDefaults(defineProps<IRangeSliderProps>(), { step: 1, forPrice: false })
 
-const emit = defineEmits<{
-  'update:modelValue': [value: IRangeValue]
-}>()
+const emit = defineEmits<{ 'update:modelValue': [value: IRangeValue] }>()
 
 const fillStyle = computed(() => {
   const minPercent = ((props.modelValue.min - props.min) / (props.max - props.min)) * 100
   const maxPercent = ((props.modelValue.max - props.min) / (props.max - props.min)) * 100
 
-  return {
-    left: `${minPercent}%`,
-    width: `${maxPercent - minPercent}%`
-  }
+  return { left: `${minPercent}%`, width: `${maxPercent - minPercent}%` }
 })
 
 const updateMin = (event: Event) => {
   const target = event.target as HTMLInputElement
   const newMin = Math.min(Number(target.value), props.modelValue.max)
 
-  emit('update:modelValue', {
-    min: newMin,
-    max: props.modelValue.max
-  })
+  emit('update:modelValue', { min: newMin, max: props.modelValue.max })
 }
 
 const updateMax = (event: Event) => {
   const target = event.target as HTMLInputElement
   const newMax = Math.max(Number(target.value), props.modelValue.min)
 
-  emit('update:modelValue', {
-    min: props.modelValue.min,
-    max: newMax
-  })
+  emit('update:modelValue', { min: props.modelValue.min, max: newMax })
 }
 </script>
 
@@ -99,7 +88,7 @@ const updateMax = (event: Event) => {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: var(--secondary-color);
+  background: var(--primary-color);
   border-radius: 50%;
   cursor: pointer;
   pointer-events: auto;

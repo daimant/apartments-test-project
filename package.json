@@ -5,7 +5,6 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "deploy": "gh-pages -d dist",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -17,6 +16,7 @@
     "typescript": "^5.3.0"
   },
   "dependencies": {
+    "@nuxt/image": "^1.11.0",
     "@pinia/nuxt": "^0.5.1",
     "pinia": "^2.1.7",
     "scss": "^0.2.4",
