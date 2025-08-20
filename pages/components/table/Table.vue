@@ -83,7 +83,7 @@ const loadMoreApartments = async () => {
   font-size: 3.4rem;
   line-height: 1;
   font-weight: 700;
-  margin-bottom: 3rem;
+  margin: 0 0 3rem 1rem;
 }
 
 .apartments-table {
