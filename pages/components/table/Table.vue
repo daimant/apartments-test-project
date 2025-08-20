@@ -48,7 +48,7 @@ const loadMoreApartments = async () => {
       <tbody>
       <tr v-for="apartment in filteredApartments" :key="apartment.id">
         <td class="layout-cell">
-          <nuxt-img
+          <img
             :src="apartment.layoutImage"
             :alt="`Планировка ${apartment.rooms}к`"
             class="layout-image"
