@@ -28,6 +28,9 @@ jobs:
       - name: Add .nojekyll to disable Jekyll
         run: echo > .output/public/.nojekyll
 
+      - name: Remove docs folder if exists
+        run: rm -rf docs
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
