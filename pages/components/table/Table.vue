@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SortingTh from "./components/SortingTh.vue";
+import { formatPrice } from "@/helpers/formatPrice";
 
 const { filteredApartments, isLoading, sortField, sortDirection } = storeToRefs(useApartmentsStore())
 const { loadApartments, setSort } = useApartmentsStore()
@@ -10,8 +11,6 @@ const loadMoreApartments = async () => {
   await loadApartments()
   isLoading.value = false
 }
-
-const formatPrice = (price: number): string => new Intl.NumberFormat('ru-RU').format(price)
 </script>
 
 <template>

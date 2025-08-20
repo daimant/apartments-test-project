@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { IRange } from "~/types/store";
+import type { IRange } from "@/types/store";
+import { formatPrice } from "@/helpers/formatPrice";
 
 const emit = defineEmits<{ 'update:modelValue': [value: IRange] }>()
 const filter = defineModel<IRange>('modelValue', { required: true })
@@ -32,11 +33,11 @@ const updateMax = (event: Event) => {
     <div class="range-result">
       <span>
         <span class="gray-text">от</span>
-        {{ filter.min }}
+        {{ formatPrice(filter.min) }}
       </span>
       <span>
         <span class="gray-text">до</span>
-        {{ filter.max }}
+        {{ formatPrice(filter.max) }}
       </span>
     </div>
 

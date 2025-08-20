@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useApartmentsStore } from '@/stores/apartments'
 import Filters from '@/pages/components/filters/Filters.vue'
 import ApartmentsTable from '@/pages/components/table/Table.vue'
-import IconArrowTop from "assets/icons/IconArrowUp.vue";
+import IconArrowTop from "@/assets/icons/IconArrowUp.vue";
 
 const apartmentsStore = useApartmentsStore()
 

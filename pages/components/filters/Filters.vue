@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import RangeSlider from "./components/RangeSlider.vue";
-import IconCross from "assets/icons/IconCross.vue";
+import IconCross from "@/assets/icons/IconCross.vue";
 
 const { filters } = storeToRefs(useApartmentsStore())
 const { resetFilters } = useApartmentsStore()

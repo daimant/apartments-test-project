@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import IconSortDown from "assets/icons/IconSortDown.vue";
-import IconSortUp from "assets/icons/IconSortUp.vue";
+import IconSortDown from "@/assets/icons/IconSortDown.vue";
+import IconSortUp from "@/assets/icons/IconSortUp.vue";
 import { computed } from 'vue'
 
 type SortField = 'area' | 'floor' | 'price'
