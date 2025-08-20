@@ -50,16 +50,33 @@ export const useApartmentsStore = defineStore('apartments', () => {
   }
 
   const loadApartments = async () => {
+    const mockData = await createMockData()
+    if (apartments.value.length) {
+      apartments.value = [...apartments.value, ...mockData]
+      return
+    }
+
     try {
       isLoading.value = true
 
-      const response = await fetch('/api/apartments.json')
-      if (!response.ok) throw new Error('Ошибка загрузки данных')
+      const xApiKey = '$2a$10$q3OjSW5amSsYUdTLXU0NbulFD7VuYPK8uXevNdugfG6mj5XNUqQC.'
+      // const postData = await fetch('https://api.jsonbin.io/v3/b', {
+      //   method: "POST",
+      //   body: JSON.stringify(mockData),
+      //   headers: { 'Content-Type': 'application/json', "X-Master-Key": xApiKey }
+      // })
 
-      const data = apartments.value.length ? await createMockData() : (await response.json()).apartments;
+      const res = await fetch('https://api.jsonbin.io/v3/b/68a58bc4d0ea881f405e08cc/latest/', {
+        headers: { "X-Master-Key": xApiKey }
+      }).then(res => res.json())
+
+      if (!res?.record) throw new Error('Ошибка загрузки данных')
+
+      const data = apartments.value.length ? await createMockData() : res.record;
       apartments.value = [...apartments.value, ...data]
       setLimits()
     } catch (error) {
+      apartments.value = [...apartments.value, ...mockData]
       console.error('Ошибка загрузки квартир:', error)
     } finally {
       isLoading.value = false
@@ -71,7 +88,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
 
     // Создаем тестовые данные для разных типов квартир
     for (let rooms = 1; rooms <= 4; rooms++) {
-      for (let floor = 1; floor <= 10; floor++) {
+      for (let floor = 1; floor <= 17; floor += 3) {
         const baseArea = rooms === 1 ? 33 : rooms === 2 ? 45 : rooms === 3 ? 65 : 85
         const areaVariation = Math.floor(Math.random() * 20) - 10
         const area = Math.max(baseArea + areaVariation, 30)
@@ -82,17 +99,17 @@ export const useApartmentsStore = defineStore('apartments', () => {
 
         mockApartments.push({
           id: apartments.value.length + 1,
-          name: `${rooms}-комнатная №${100 + apartments.value.length}`,
+          name: `${ rooms }-комнатная №${ 100 + apartments.value.length + mockApartments.length }`,
           rooms,
           area,
           floor,
           price,
-          layoutImage: `/images/layout-${rooms}k.png`
+          layoutImage: `/images/layout-${ rooms }k.png`
         })
       }
     }
 
-    return mockApartments
+    return mockApartments.slice(0, 20)
   }
 
   return {
