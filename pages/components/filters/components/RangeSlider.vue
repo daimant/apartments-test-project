@@ -29,10 +29,16 @@ const updateMax = (event: Event) => {
 </script>
 
 <template>
-  <div class="range-slider-container">
-    <div>
-      <span>от {{ min }}</span>
-      <span>до {{ max }}</span>
+  <div class="range-container">
+    <div class="range-result">
+      <span>
+        <span class="gray-text">от</span>
+        {{ min }}
+      </span>
+      <span>
+        <span class="gray-text">до</span>
+        {{ max }}
+      </span>
     </div>
 
     <div class="range-slider">
@@ -60,93 +66,108 @@ const updateMax = (event: Event) => {
 </template>
 
 <style scoped lang="scss">
-.range-slider-container {
-  margin-bottom: 1rem;
-}
+.range-container {
+  .range-result {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.375rem;
 
-.range-slider {
-  position: relative;
-  height: 40px;
-  margin-bottom: 1rem;
-}
+    span {
+      display: flex;
+      gap: 0.5rem;
+    }
 
-.range-slider-input {
-  position: absolute;
-  width: 100%;
-  height: 6px;
-  background: transparent;
-  border-radius: 3px;
-  outline: none;
-  pointer-events: none;
-  -webkit-appearance: none;
-  appearance: none;
-  z-index: 2;
-}
+    .gray-text {
+      color: var(--gray);
+    }
+  }
 
-.range-slider-input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: var(--primary-color);
-  border-radius: 50%;
-  cursor: pointer;
-  pointer-events: auto;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-}
+  .range-slider {
+    position: relative;
+    height: 0.875rem;
 
-.range-slider-input::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  background: var(--secondary-color);
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-}
+    &-input {
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+      border-radius: 3px;
+      outline: none;
+      pointer-events: none;
+      -webkit-appearance: none;
+      appearance: none;
+      z-index: 2;
+      top: 0.35rem;
+    }
 
-.range-slider-input::-webkit-slider-track {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
-  background: transparent;
-  border-radius: 3px;
-}
+    &-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 0.875rem;
+      height: 0.875rem;
+      background: var(--primary-color);
+      border-radius: 50%;
+      cursor: pointer;
+      pointer-events: auto;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
 
-.range-slider-input::-moz-range-track {
-  height: 6px;
-  background: transparent;
-  border-radius: 3px;
-  border: none;
-}
+    &-input::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
 
-.range-track {
-  position: absolute;
-  top: 17px;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: var(--light-gray);
-  border-radius: 3px;
-  z-index: 1;
-}
+    &-input::-webkit-slider-track {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      background: transparent;
+      border-radius: 3px;
+    }
 
-.range-fill {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  background: var(--secondary-color);
-  border-radius: 3px;
-  z-index: 2;
-}
+    &-input::-moz-range-track {
+      height: 6px;
+      background: transparent;
+      border-radius: 3px;
+      border: none;
+    }
+  }
 
-.min-input {
-  z-index: 3;
-}
+  .range-track {
+    position: absolute;
+    top: 0.25rem;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--light-gray);
+    border-radius: 3px;
+    z-index: 1;
+  }
 
-.max-input {
-  z-index: 4;
+  .range-fill {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 3px;
+    z-index: 2;
+  }
+
+  .min-input {
+    z-index: 3;
+  }
+
+  .max-input {
+    z-index: 4;
+  }
 }
 </style>

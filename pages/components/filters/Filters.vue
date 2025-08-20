@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RangeSlider from "./components/RangeSlider.vue";
+import IconCross from "assets/icons/IconCross.vue";
 
 const { filters } = storeToRefs(useApartmentsStore())
 const { resetFilters } = useApartmentsStore()
@@ -11,22 +12,19 @@ const selectRooms = (rooms: number) => {
 
 <template>
   <div class="filters-section">
-    <div class="rooms-filter">
-      <h4>Количество комнат</h4>
-      <div class="rooms-tabs">
-        <button
-          v-for="room in [1, 2, 3, 4]"
-          :key="room"
-          @click="selectRooms(room)"
-          :class="['room-tab', { active: filters.selectedRooms === room }]"
-        >
-          {{ room }}к
-        </button>
-      </div>
+    <div class="rooms-tabs">
+      <button
+        v-for="room in [1, 2, 3, 4]"
+        :key="room"
+        @click="selectRooms(room)"
+        :class="['room-tab', { active: filters.selectedRooms === room }]"
+      >
+        {{ room }}к
+      </button>
     </div>
 
-    <div v-if='filters.priceRange' class="price-filter">
-      <h4>Стоимость квартиры, ₽</h4>
+    <div v-if='filters.priceRange' class="filter-container">
+      <div>Стоимость квартиры, ₽</div>
       <RangeSlider
         v-model="filters.priceRange"
         :min="filters.priceRange.minLimit"
@@ -35,8 +33,8 @@ const selectRooms = (rooms: number) => {
       />
     </div>
 
-    <div v-if="filters.areaRange" class="area-filter">
-      <h4>Площадь, м²</h4>
+    <div v-if="filters.areaRange" class="filter-container">
+      <div>Площадь, м²</div>
       <RangeSlider
         v-model="filters.areaRange"
         :min="filters.areaRange.minLimit"
@@ -44,99 +42,85 @@ const selectRooms = (rooms: number) => {
       />
     </div>
 
-    <!-- Кнопка сброса фильтров -->
-    <button @click="resetFilters" class="reset-filters-btn">
-      Сбросить параметры
-    </button>
+    <div class="reset-filters-btn-container">
+      <button @click="resetFilters" class="reset-filters-btn">
+        Сбросить параметры
+        <IconCross/>
+      </button>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .filters-section {
   position: sticky;
-  top: 2rem;
   background: linear-gradient(135deg, rgba(174, 228, 178, 0.3) 0%, rgba(149, 208, 161, 0.3) 100%);
   border-radius: var(--border-radius);
-  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  top: 2rem;
+  padding: 2.5rem;
+  gap: 1.5rem;
+  font-size: 0.88rem;
+  line-height: 1.25rem;
+
+  .rooms-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 44px);
+    gap: 1rem;
+
+    .room-tab {
+      background: white;
+      padding: 0.6rem 0.75rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      border: none;
+      height: 2.75rem;
+
+    }
+
+    .room-tab:hover {
+      background: #e9ecef;
+    }
+
+    .room-tab.active {
+      background: var(--primary-color);
+      color: white;
+    }
+  }
+
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .reset-filters-btn-container {
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    height: 2rem;
+  }
+
+  .reset-filters-btn {
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    display: flex;
+    gap: 0.5rem;
+    background-color: transparent;
+    align-items: center;
+    line-height: 1.25rem;
+
+    &:hover {
+      scale: 1.01;
+    }
+  }
 }
 
-.filters-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
 
-
-.rooms-filter {
-  margin-bottom: 2rem;
-}
-
-.rooms-filter h4 {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  color: var(--text-color);
-}
-
-.rooms-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 44px);
-  gap: 1rem;
-}
-
-.room-tab {
-  background: white;
-  padding: 0.6rem 0.75rem;
-  border-radius: 2rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
-  border: none;
-  height: 2.75rem;
-}
-
-.room-tab:hover {
-  background: #e9ecef;
-}
-
-.room-tab.active {
-  background: var(--primary-color);
-  color: white;
-}
-
-.price-filter, .area-filter {
-  margin-bottom: 2rem;
-}
-
-.price-filter h4,
-.area-filter h4 {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  color: var(--text-color);
-}
-
-
-.reset-filters-btn {
-  width: 100%;
-  background: var(--accent-color);
-  color: white;
-  border: none;
-  padding: 1rem;
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.reset-filters-btn:hover {
-  background: #c0392b;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-}
 </style>
