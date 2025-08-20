@@ -26,14 +26,10 @@ jobs:
         run: npm run generate
 
       - name: Add .nojekyll to disable Jekyll
-        run: echo > .output/public/.nojekyll
-
-      - name: Remove docs folder if exists
-        run: rm -rf docs
+        run: echo "" > .output/public/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .output/public
-          branch: gh-pages

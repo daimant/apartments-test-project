@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxt/image'],
   css: ['~/assets/scss/main.scss'],
   app: {
+    baseURL: '/apartments-test-project/',
     head: {
       link: [
         {
