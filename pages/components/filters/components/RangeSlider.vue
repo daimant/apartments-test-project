@@ -1,31 +1,34 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { IRangeSliderProps, IRangeValue } from "~/types/range-slider";
+import { watch, computed } from 'vue'
+import type { IRange } from "~/types/store";
 
-const props = withDefaults(defineProps<IRangeSliderProps>(), { step: 1, forPrice: false })
-
-const emit = defineEmits<{ 'update:modelValue': [value: IRangeValue] }>()
+const emit = defineEmits<{ 'update:modelValue': [value: IRange] }>()
+const filter = defineModel<IRange>('modelValue', { required: true })
 
 const fillStyle = computed(() => {
-  const minPercent = ((props.modelValue.min - props.min) / (props.max - props.min)) * 100
-  const maxPercent = ((props.modelValue.max - props.min) / (props.max - props.min)) * 100
+  const minPercent = ((filter.value.min - filter.value.minLimit) / (filter.value.maxLimit - filter.value.minLimit)) * 100
+  const maxPercent = ((filter.value.max - filter.value.minLimit) / (filter.value.maxLimit - filter.value.minLimit)) * 100
 
   return { left: `${minPercent}%`, width: `${maxPercent - minPercent}%` }
 })
 
 const updateMin = (event: Event) => {
   const target = event.target as HTMLInputElement
-  const newMin = Math.min(Number(target.value), props.modelValue.max)
+  const newMin = Math.min(Number(target.value), filter.value.max)
 
-  emit('update:modelValue', { min: newMin, max: props.modelValue.max })
+  emit('update:modelValue', { ...filter.value, min: newMin, max: filter.value.max })
 }
 
 const updateMax = (event: Event) => {
   const target = event.target as HTMLInputElement
-  const newMax = Math.max(Number(target.value), props.modelValue.min)
+  const newMax = Math.max(Number(target.value), filter.value.min)
 
-  emit('update:modelValue', { min: props.modelValue.min, max: newMax })
+  emit('update:modelValue', { ...filter.value, min: filter.value.min, max: newMax })
 }
+
+watch(() => filter.value, () => {
+  console.log(filter.value)
+}, { deep: true, immediate: true })
 </script>
 
 <template>
@@ -33,29 +36,29 @@ const updateMax = (event: Event) => {
     <div class="range-result">
       <span>
         <span class="gray-text">от</span>
-        {{ min }}
+        {{ filter.min }}
       </span>
       <span>
         <span class="gray-text">до</span>
-        {{ max }}
+        {{ filter.max }}
       </span>
     </div>
 
     <div class="range-slider">
       <input
-        :value="modelValue.min"
+        :value="filter.min"
         type="range"
         class="range-slider-input min-input"
-        :min="min"
-        :max="max"
+        :min="filter.minLimit"
+        :max="filter.maxLimit"
         @input="updateMin"
       />
       <input
-        :value="modelValue.max"
+        :value="filter.max"
         type="range"
         class="range-slider-input max-input"
-        :min="min"
-        :max="max"
+        :min="filter.minLimit"
+        :max="filter.maxLimit"
         @input="updateMax"
       />
       <div class="range-track">
@@ -144,11 +147,11 @@ const updateMax = (event: Event) => {
 
   .range-track {
     position: absolute;
-    top: 0.25rem;
+    top: 0.35rem;
     left: 0;
     right: 0;
-    height: 6px;
-    background: var(--light-gray);
+    height: 3px;
+    background: var(--light-gray-2);
     border-radius: 3px;
     z-index: 1;
   }

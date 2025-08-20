@@ -3,6 +3,7 @@ import { computed } from "vue";
 import type { IApartment, IFilters } from "~/types/store";
 
 const defaultFilters = {
+  selectedRooms: null,
   priceRange: { min: 0, max: 10000000, minLimit: 0, maxLimit: 10000000 },
   areaRange: { min: 0, max: 100, minLimit: 0, maxLimit: 100 }
 }
@@ -35,6 +36,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
   })
 
   const setLimits = () => {
+    filters.value.selectedRooms = null
     filters.value.priceRange.minLimit = Math.min(...apartments.value.map(el => el.price))
     filters.value.priceRange.min = filters.value.priceRange.minLimit
     filters.value.priceRange.maxLimit = Math.max(...apartments.value.map(el => el.price))
@@ -46,27 +48,25 @@ export const useApartmentsStore = defineStore('apartments', () => {
   }
 
   const resetFilters = () => {
-    filters.value = { ...defaultFilters }
+    if (!apartments.value.length) filters.value = { ...defaultFilters }
+    else setLimits()
   }
 
   const loadApartments = async () => {
     const mockData = await createMockData()
-    if (apartments.value.length) {
-      apartments.value = [...apartments.value, ...mockData]
-      return
-    }
 
     try {
       isLoading.value = true
 
       const xApiKey = '$2a$10$q3OjSW5amSsYUdTLXU0NbulFD7VuYPK8uXevNdugfG6mj5XNUqQC.'
-      // const postData = await fetch('https://api.jsonbin.io/v3/b', {
-      //   method: "POST",
-      //   body: JSON.stringify(mockData),
-      //   headers: { 'Content-Type': 'application/json', "X-Master-Key": xApiKey }
-      // })
 
-      const res = await fetch('https://api.jsonbin.io/v3/b/68a58bc4d0ea881f405e08cc/latest/', {
+      const createRes = await fetch('https://api.jsonbin.io/v3/b', {
+        method: "POST",
+        body: JSON.stringify(mockData),
+        headers: { 'Content-Type': 'application/json', "X-Master-Key": xApiKey }
+      }).then(res => res.json())
+
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${createRes.metadata.id}/latest/`, {
         headers: { "X-Master-Key": xApiKey }
       }).then(res => res.json())
 
@@ -99,12 +99,12 @@ export const useApartmentsStore = defineStore('apartments', () => {
 
         mockApartments.push({
           id: apartments.value.length + 1,
-          name: `${ rooms }-комнатная №${ 100 + apartments.value.length + mockApartments.length }`,
+          name: `${rooms}-комнатная №${100 + apartments.value.length + mockApartments.length}`,
           rooms,
           area,
           floor,
           price,
-          layoutImage: `/images/layout-${ rooms }k.png`
+          layoutImage: `/images/layout-${rooms}k.png`
         })
       }
     }

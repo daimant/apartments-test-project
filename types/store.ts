@@ -10,16 +10,13 @@ export interface IApartment {
 
 export interface IFilters {
   selectedRooms?: number | null,
-  priceRange: {
-    min: number
-    max: number
-    minLimit: number
-    maxLimit: number
-  },
-  areaRange: {
-    min: number
-    max: number
-    minLimit: number
-    maxLimit: number
-  }
+  priceRange: IRange
+  areaRange: IRange
+}
+
+export interface IRange {
+  min: number
+  max: number
+  minLimit: number
+  maxLimit: number
 }

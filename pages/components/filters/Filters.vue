@@ -8,6 +8,14 @@ const { resetFilters } = useApartmentsStore()
 const selectRooms = (rooms: number) => {
   filters.value.selectedRooms = filters.value.selectedRooms === rooms ? null : rooms
 }
+
+const updateRange = (type: 'priceRange' | 'areaRange', value: { min: number; max: number }) => {
+  filters.value[type] = {
+    ...filters.value[type],
+    min: value.min,
+    max: value.max
+  }
+}
 </script>
 
 <template>
@@ -23,22 +31,19 @@ const selectRooms = (rooms: number) => {
       </button>
     </div>
 
-    <div v-if='filters.priceRange' class="filter-container">
+    <div v-if="filters.priceRange" class="filter-container">
       <div>Стоимость квартиры, ₽</div>
       <RangeSlider
-        v-model="filters.priceRange"
-        :min="filters.priceRange.minLimit"
-        :max="filters.priceRange.maxLimit"
-        for-price
+        :modelValue="filters.priceRange"
+        @update:modelValue="val => updateRange('priceRange', val)"
       />
     </div>
 
     <div v-if="filters.areaRange" class="filter-container">
       <div>Площадь, м²</div>
       <RangeSlider
-        v-model="filters.areaRange"
-        :min="filters.areaRange.minLimit"
-        :max="filters.areaRange.maxLimit"
+        :modelValue="filters.areaRange"
+        @update:modelValue="val => updateRange('areaRange', val)"
       />
     </div>
 
