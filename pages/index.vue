@@ -10,37 +10,37 @@ const apartmentsStore = useApartmentsStore()
 const showScrollTop = ref(false)
 
 const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  if (process.client) window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 const handleScroll = () => {
-  showScrollTop.value = window.scrollY > 300
+  if (process.client) showScrollTop.value = window.scrollY > 300
 }
 
 onMounted(async () => {
-  window.addEventListener('scroll', handleScroll)
+  if (process.client) window.addEventListener('scroll', handleScroll)
   await apartmentsStore.loadApartments()
 })
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
+  if (process.client) window.removeEventListener('scroll', handleScroll)
 })
 </script>
 
 <template>
   <div class="app">
     <div class="content">
-      <apartments-table />
-      <filters />
+      <apartments-table/>
+      <filters/>
     </div>
 
     <button
-        v-show="showScrollTop"
-        @click="scrollToTop"
-        class="scroll-top-btn"
-        :class="{ visible: showScrollTop }"
+      v-show="showScrollTop"
+      @click="scrollToTop"
+      class="scroll-top-btn"
+      :class="{ visible: showScrollTop }"
     >
-      <icon-arrow-top />
+      <icon-arrow-top/>
     </button>
   </div>
 </template>
