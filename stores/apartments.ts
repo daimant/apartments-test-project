@@ -4,7 +4,7 @@ import type { IApartment, IFilters } from "~/types/store";
 
 const defaultFilters = {
   selectedRooms: null,
-  priceRange: { min: 0, max: 10000000, minLimit: 0, maxLimit: 10000000 },
+  priceRange: { min: 0, max: 20000000, minLimit: 0, maxLimit: 20000000 },
   areaRange: { min: 0, max: 100, minLimit: 0, maxLimit: 100 }
 }
 

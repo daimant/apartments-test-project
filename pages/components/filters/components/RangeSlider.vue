@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, computed } from 'vue'
+import { computed } from 'vue'
 import type { IRange } from "~/types/store";
 
 const emit = defineEmits<{ 'update:modelValue': [value: IRange] }>()
@@ -25,10 +25,6 @@ const updateMax = (event: Event) => {
 
   emit('update:modelValue', { ...filter.value, min: filter.value.min, max: newMax })
 }
-
-watch(() => filter.value, () => {
-  console.log(filter.value)
-}, { deep: true, immediate: true })
 </script>
 
 <template>
