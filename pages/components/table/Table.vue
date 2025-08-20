@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import SortingTh from "./components/SortingTh.vue";
 
-const { filteredApartments, isLoading } = storeToRefs(useApartmentsStore())
-const { loadApartments } = useApartmentsStore()
+const { filteredApartments, isLoading, sortField, sortDirection } = storeToRefs(useApartmentsStore())
+const { loadApartments, setSort } = useApartmentsStore()
 
 const loadMoreApartments = async () => {
   isLoading.value = true
@@ -23,9 +23,27 @@ const formatPrice = (price: number): string => new Intl.NumberFormat('ru-RU').fo
       <tr>
         <th>Планировка</th>
         <th>Квартира</th>
-        <sorting-th text="S, м²"/>
-        <sorting-th text="Этаж"/>
-        <sorting-th text="Цена, ₽"/>
+        <sorting-th
+          text="S, м²"
+          field="area"
+          :active-field="sortField"
+          :direction="sortDirection"
+          @sort="setSort"
+        />
+        <sorting-th
+          text="Этаж"
+          field="floor"
+          :active-field="sortField"
+          :direction="sortDirection"
+          @sort="setSort"
+        />
+        <sorting-th
+          text="Цена, ₽"
+          field="price"
+          :active-field="sortField"
+          :direction="sortDirection"
+          @sort="setSort"
+        />
       </tr>
       </thead>
       <tbody>
@@ -92,6 +110,7 @@ const formatPrice = (price: number): string => new Intl.NumberFormat('ru-RU').fo
   }
 
   th {
+    user-select: none;
     font-weight: 400;
   }
 

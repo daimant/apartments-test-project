@@ -12,6 +12,17 @@ export const useApartmentsStore = defineStore('apartments', () => {
   const apartments = ref<IApartment[]>([])
   const isLoading = ref(false)
   const filters = ref<IFilters>({ ...defaultFilters })
+  const sortField = ref<'area' | 'floor' | 'price' | null>(null)
+  const sortDirection = ref<'asc' | 'desc'>('asc')
+
+  const setSort = (field: 'area' | 'floor' | 'price') => {
+    if (sortField.value === field) {
+      sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
+    } else {
+      sortField.value = field
+      sortDirection.value = 'asc'
+    }
+  }
 
   const filteredApartments = computed(() => {
     let filtered = apartments.value
@@ -32,6 +43,19 @@ export const useApartmentsStore = defineStore('apartments', () => {
       )
     }
 
+    if (sortField.value) {
+      filtered = [...filtered].sort((a, b) => {
+        const field = sortField.value as 'area' | 'floor' | 'price'
+        const aValue = a[field]
+        const bValue = b[field]
+        if (aValue === bValue) return 0
+        if (sortDirection.value === 'asc') {
+          return aValue > bValue ? 1 : -1
+        } else {
+          return aValue < bValue ? 1 : -1
+        }
+      })
+    }
     return filtered
   })
 
@@ -115,9 +139,13 @@ export const useApartmentsStore = defineStore('apartments', () => {
   return {
     apartments,
     isLoading,
-    filteredApartments,
     filters,
-    loadApartments,
+    filteredApartments,
+    sortField,
+    sortDirection,
+    setLimits,
     resetFilters,
+    loadApartments,
+    setSort
   }
 })
