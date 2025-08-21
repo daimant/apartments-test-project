@@ -60,18 +60,28 @@ export const useApartmentsStore = defineStore('apartments', () => {
   })
 
   const setLimits = () => {
-    filters.value.selectedRooms = null
-    filters.value.priceRange.minLimit = Math.min(...apartments.value.map(el => el.price))
-    filters.value.priceRange.min = filters.value.priceRange.minLimit
-    filters.value.priceRange.maxLimit = Math.max(...apartments.value.map(el => el.price))
-    filters.value.priceRange.max = filters.value.priceRange.maxLimit
-    filters.value.areaRange.minLimit = Math.min(...apartments.value.map(el => el.area))
-    filters.value.areaRange.min = filters.value.areaRange.minLimit
-    filters.value.areaRange.maxLimit = Math.max(...apartments.value.map(el => el.area))
-    filters.value.areaRange.max = filters.value.areaRange.maxLimit
+    const prices = apartments.value.map(el => el.price)
+    const areas = apartments.value.map(el => el.area)
+
+    const newPriceMinLimit = Math.min(...prices)
+    const newPriceMaxLimit = Math.max(...prices)
+    const newAreaMinLimit = Math.min(...areas)
+    const newAreaMaxLimit = Math.max(...areas)
+
+    filters.value.priceRange.minLimit = newPriceMinLimit
+    filters.value.priceRange.maxLimit = newPriceMaxLimit
+    filters.value.priceRange.min = newPriceMinLimit
+    filters.value.priceRange.max = newPriceMaxLimit
+
+    filters.value.areaRange.minLimit = newAreaMinLimit
+    filters.value.areaRange.maxLimit = newAreaMaxLimit
+    filters.value.areaRange.min = newAreaMinLimit
+    filters.value.areaRange.max = newAreaMaxLimit
   }
 
   const resetFilters = () => {
+    filters.value.selectedRooms = null
+
     if (!apartments.value.length) filters.value = { ...defaultFilters }
     else setLimits()
   }
@@ -82,7 +92,8 @@ export const useApartmentsStore = defineStore('apartments', () => {
     try {
       isLoading.value = true
 
-      const xApiKey = '$2a$10$q3OjSW5amSsYUdTLXU0NbulFD7VuYPK8uXevNdugfG6mj5XNUqQC.'
+      const config = useRuntimeConfig()
+      const xApiKey: string = String(config.public.jsonbinMasterKey || '')
 
       const createRes = await fetch('https://api.jsonbin.io/v3/b', {
         method: "POST",
@@ -110,7 +121,11 @@ export const useApartmentsStore = defineStore('apartments', () => {
   const createMockData = async () => {
     const mockApartments: IApartment[] = []
 
-    // Создаем тестовые данные для разных типов квартир
+    const currentMaxId = apartments.value.length
+      ? Math.max(...apartments.value.map(a => a.id))
+      : 0
+    let nextId = currentMaxId + 1
+
     for (let rooms = 1; rooms <= 4; rooms++) {
       for (let floor = 1; floor <= 17; floor += 3) {
         const baseArea = rooms === 1 ? 33 : rooms === 2 ? 45 : rooms === 3 ? 65 : 85
@@ -122,7 +137,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
         const price = Math.max(basePrice + priceVariation, 5000000)
 
         mockApartments.push({
-          id: apartments.value.length + 1,
+          id: nextId++,
           name: `${rooms}-комнатная №${100 + apartments.value.length + mockApartments.length}`,
           rooms,
           area,

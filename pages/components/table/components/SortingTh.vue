@@ -32,7 +32,7 @@ const isActive = computed(() => props.activeField === props.field)
 <style scoped lang="scss">
 .sorting-th {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   align-items: center;
   cursor: pointer;
   transition: var(--transition);
@@ -44,7 +44,7 @@ const isActive = computed(() => props.activeField === props.field)
   .sort-icons-container {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 0.125rem;
 
     .active {
       --color: var(--primary-color)

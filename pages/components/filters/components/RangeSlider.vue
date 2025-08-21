@@ -92,9 +92,9 @@ const updateMax = (event: Event) => {
     &-input {
       position: absolute;
       width: 100%;
-      height: 3px;
+      height: 0.1875rem;
       background: transparent;
-      border-radius: 3px;
+      border-radius: 0.1875rem;
       outline: none;
       pointer-events: none;
       -webkit-appearance: none;
@@ -112,33 +112,33 @@ const updateMax = (event: Event) => {
       border-radius: 50%;
       cursor: pointer;
       pointer-events: auto;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.2);
       z-index: 10;
     }
 
     &-input::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
+      width: 1.25rem;
+      height: 1.25rem;
       background: var(--secondary-color);
       border-radius: 50%;
       cursor: pointer;
       border: none;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.2);
       z-index: 10;
     }
 
     &-input::-webkit-slider-track {
       -webkit-appearance: none;
       appearance: none;
-      height: 6px;
+      height: 0.375rem;
       background: transparent;
-      border-radius: 3px;
+      border-radius: 0.1875rem;
     }
 
     &-input::-moz-range-track {
-      height: 6px;
+      height: 0.375rem;
       background: transparent;
-      border-radius: 3px;
+      border-radius: 0.1875rem;
       border: none;
     }
   }
@@ -148,9 +148,9 @@ const updateMax = (event: Event) => {
     top: 0.35rem;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 0.1875rem;
     background: var(--light-gray-2);
-    border-radius: 3px;
+    border-radius: 0.1875rem;
     z-index: 1;
   }
 
@@ -159,7 +159,7 @@ const updateMax = (event: Event) => {
     top: 0;
     height: 100%;
     background: var(--primary-color);
-    border-radius: 3px;
+    border-radius: 0.1875rem;
     z-index: 2;
   }
 
