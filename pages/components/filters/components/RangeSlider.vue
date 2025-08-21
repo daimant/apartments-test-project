@@ -7,24 +7,25 @@ const emit = defineEmits<{ 'update:modelValue': [value: IRange] }>()
 const filter = defineModel<IRange>('modelValue', { required: true })
 
 const fillStyle = computed(() => {
-  const minPercent = ((filter.value.min - filter.value.minLimit) / (filter.value.maxLimit - filter.value.minLimit)) * 100
-  const maxPercent = ((filter.value.max - filter.value.minLimit) / (filter.value.maxLimit - filter.value.minLimit)) * 100
+  const minPercent = ((filter.value?.min - filter.value?.minLimit) / (filter.value?.maxLimit - filter.value?.minLimit)) * 100
+  const maxPercent = ((filter.value?.max - filter.value?.minLimit) / (filter.value?.maxLimit - filter.value?.minLimit)) * 100
 
-  return { left: `${minPercent}%`, width: `${maxPercent - minPercent}%` }
+  return { left: `${ minPercent }%`, width: `${ maxPercent - minPercent }%` }
 })
 
 const updateMin = (event: Event) => {
   const target = event.target as HTMLInputElement
-  const newMin = Math.min(Number(target.value), filter.value.max)
+  const newMin = Math.min(Number(target.value), filter.value?.max)
 
-  emit('update:modelValue', { ...filter.value, min: newMin, max: filter.value.max })
+  emit('update:modelValue', { ...filter.value, min: newMin, max: filter.value?.max })
 }
 
 const updateMax = (event: Event) => {
+  if (!filter.value) return
   const target = event.target as HTMLInputElement
-  const newMax = Math.max(Number(target.value), filter.value.min)
+  const newMax = Math.max(Number(target.value), filter.value?.min)
 
-  emit('update:modelValue', { ...filter.value, min: filter.value.min, max: newMax })
+  emit('update:modelValue', { ...filter.value, min: filter.value?.min, max: newMax })
 }
 </script>
 
@@ -33,30 +34,30 @@ const updateMax = (event: Event) => {
     <div class="range-result">
       <span>
         <span class="gray-text">от</span>
-        {{ formatPrice(filter.min) }}
+        {{ formatPrice(filter?.min) }}
       </span>
       <span>
         <span class="gray-text">до</span>
-        {{ formatPrice(filter.max) }}
+        {{ formatPrice(filter?.max) }}
       </span>
     </div>
 
     <div class="range-slider">
       <input
-        :value="filter.min"
-        type="range"
-        class="range-slider-input min-input"
-        :min="filter.minLimit"
-        :max="filter.maxLimit"
-        @input="updateMin"
+          :value="filter?.min"
+          type="range"
+          class="range-slider-input min-input"
+          :min="filter?.minLimit"
+          :max="filter?.maxLimit"
+          @input="updateMin"
       />
       <input
-        :value="filter.max"
-        type="range"
-        class="range-slider-input max-input"
-        :min="filter.minLimit"
-        :max="filter.maxLimit"
-        @input="updateMax"
+          :value="filter?.max"
+          type="range"
+          class="range-slider-input max-input"
+          :min="filter?.minLimit"
+          :max="filter?.maxLimit"
+          @input="updateMax"
       />
       <div class="range-track">
         <div class="range-fill" :style="fillStyle"></div>
