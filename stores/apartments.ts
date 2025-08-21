@@ -98,11 +98,11 @@ export const useApartmentsStore = defineStore('apartments', () => {
 
       const data = apartments.value.length ? await createMockData() : res.record;
       apartments.value = [...apartments.value, ...data]
-      setLimits()
     } catch (error) {
       apartments.value = [...apartments.value, ...mockData]
       console.error('Ошибка загрузки квартир:', error)
     } finally {
+      await setLimits()
       isLoading.value = false
     }
   }
