@@ -93,7 +93,7 @@ const loadMoreApartments = async () => {
   table-layout: fixed;
 
   thead, td {
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.0625rem 0 0 rgba(0, 0, 0, 0.1); /* 1px */
   }
 
   th, td {
@@ -123,10 +123,10 @@ const loadMoreApartments = async () => {
 }
 
 .layout-image {
-  width: 130px;
-  height: 80px;
+  width: 8.125rem; /* 130px */
+  height: 5rem; /* 80px */
   object-fit: contain;
-  border-radius: 4px;
+  border-radius: 0.25rem; /* 4px */
 }
 
 .floor-cell-from {
@@ -154,6 +154,20 @@ const loadMoreApartments = async () => {
       cursor: not-allowed;
       transform: none;
     }
+  }
+}
+
+@media (max-width: 90rem) { /* 1440px */
+  .apartments-table {
+    th, td { padding: 0.75rem 1rem; }
+    thead { font-size: 0.82rem; }
+  }
+}
+
+@media (max-width: 60rem) { /* 960px */
+  .apartments-table {
+    th, td { padding: 0.6rem 0.75rem; }
+    .layout-image { width: 7rem; height: 4.25rem; }
   }
 }
 

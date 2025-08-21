@@ -71,7 +71,7 @@ const updateRange = (type: 'priceRange' | 'areaRange', value: { min: number; max
 
   .rooms-tabs {
     display: grid;
-    grid-template-columns: repeat(4, 44px);
+    grid-template-columns: repeat(4, 2.75rem); /* 44px */
     gap: 1rem;
 
     .room-tab {
@@ -124,6 +124,21 @@ const updateRange = (type: 'priceRange' | 'areaRange', value: { min: number; max
     &:hover {
       scale: 1.01;
     }
+  }
+}
+
+@media (max-width: 90rem) { /* 1440px */
+  .filters-section {
+    padding: 2rem;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 60rem) { /* 960px */
+  .filters-section {
+    position: static;
+    padding: 1.5rem;
+    gap: 0.75rem;
   }
 }
 

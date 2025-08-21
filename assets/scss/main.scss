@@ -17,9 +17,9 @@
   --gray: #9FA2AF;
   --gray-2: #CDD0D5;
   --border-color: #ddd;
-  --border-radius: 10px;
-  --block-padding: 96px;
-  --inline-padding: 80px;
+  --border-radius: 0.625rem; /* 10px */
+  --block-padding: 6rem; /* 96px */
+  --inline-padding: 5rem; /* 80px */
   --transition: all 0.3s ease;
 }
 
@@ -45,7 +45,6 @@ body {
   transform: scale(0.95);
 }
 
-/* Анимации */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -61,24 +60,14 @@ body {
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Стили для загрузки */
 .loading {
   opacity: 0.6;
   pointer-events: none;
 }
 
-/* Стили для пустого состояния */
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
   color: #666;
 }
 
-.empty-state h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-}
-
-.empty-state p {
-  font-size: 1rem;
-}
