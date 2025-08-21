@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import type { IApartment, IFilters } from "~/types/store";
 
 const defaultFilters = {
