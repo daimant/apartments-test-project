@@ -70,16 +70,18 @@ export const useApartmentsStore = defineStore('apartments', () => {
 
     filters.value.priceRange.minLimit = newPriceMinLimit
     filters.value.priceRange.maxLimit = newPriceMaxLimit
-    filters.value.priceRange.min = Math.max(filters.value.priceRange.min, newPriceMinLimit)
-    filters.value.priceRange.max = Math.min(filters.value.priceRange.max, newPriceMaxLimit)
+    filters.value.priceRange.min = newPriceMinLimit
+    filters.value.priceRange.max = newPriceMaxLimit
 
     filters.value.areaRange.minLimit = newAreaMinLimit
     filters.value.areaRange.maxLimit = newAreaMaxLimit
-    filters.value.areaRange.min = Math.max(filters.value.areaRange.min, newAreaMinLimit)
-    filters.value.areaRange.max = Math.min(filters.value.areaRange.max, newAreaMaxLimit)
+    filters.value.areaRange.min = newAreaMinLimit
+    filters.value.areaRange.max = newAreaMaxLimit
   }
 
   const resetFilters = () => {
+    filters.value.selectedRooms = null
+
     if (!apartments.value.length) filters.value = { ...defaultFilters }
     else setLimits()
   }
