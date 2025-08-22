@@ -1,4 +1,4 @@
-import type { IRange } from "~/types/range-slider";
+import type { IRange } from "~/types/filters";
 
 export interface IApartment {
   id: number

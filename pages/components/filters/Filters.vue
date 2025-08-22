@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RangeSlider from "./components/RangeSlider.vue";
 import IconCross from "@/assets/icons/IconCross.vue";
-import type { IRangeUpdateCallback } from "~/types/range-slider";
+import type { IRangeUpdateCallback } from "~/types/filters";
 
 const { filters } = storeToRefs(useApartmentsStore())
 const { resetFilters } = useApartmentsStore()
@@ -10,7 +10,7 @@ const selectRooms = (rooms: number) => {
   filters.value.selectedRooms = filters.value.selectedRooms === rooms ? null : rooms
 }
 
-const updateRange = (type: 'priceRange' | 'areaRange', value: { min: number; max: number }) => {
+const updateRange = (type: 'priceRange' | 'areaRange', value: IRangeUpdateCallback) => {
   filters.value[type] = {
     ...filters.value[type],
     min: value.min,
@@ -142,6 +142,4 @@ const updateRange = (type: 'priceRange' | 'areaRange', value: { min: number; max
     gap: 0.75rem;
   }
 }
-
-
 </style>

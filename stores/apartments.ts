@@ -59,7 +59,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
     return filtered
   })
 
-  const setLimits = () => {
+  const setLimits = (query?: Record<string, any>) => {
     const prices = apartments.value.map(el => el.price)
     const areas = apartments.value.map(el => el.area)
 
@@ -86,7 +86,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
     else setLimits()
   }
 
-  const loadApartments = async () => {
+  const loadApartments = async (query?: Record<string, any>) => {
     const mockData = await createMockData()
 
     try {
@@ -113,7 +113,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
       apartments.value = [...apartments.value, ...mockData]
       console.error('Ошибка загрузки квартир:', error)
     } finally {
-      await setLimits()
+      await setLimits(query)
       isLoading.value = false
     }
   }

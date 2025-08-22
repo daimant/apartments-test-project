@@ -2,15 +2,9 @@
 import IconSortDown from "@/assets/icons/IconSortDown.vue";
 import IconSortUp from "@/assets/icons/IconSortUp.vue";
 import { computed } from 'vue'
+import type { ISortThProps } from "~/types/table";
 
-type SortField = 'area' | 'floor' | 'price'
-
-const props = defineProps<{
-  text: string,
-  field: SortField,
-  activeField: SortField | null,
-  direction: 'asc' | 'desc'
-}>()
+const props = defineProps<ISortThProps>()
 defineEmits(['sort'])
 
 
@@ -22,8 +16,8 @@ const isActive = computed(() => props.activeField === props.field)
     <div class="sorting-th" @click="$emit('sort', field)">
       <div :class="{ active: isActive }">{{ text }}</div>
       <div class="sort-icons-container">
-        <icon-sort-up :class="{ active: isActive && direction === 'asc' }"/>
-        <icon-sort-down :class="{ active: isActive && direction === 'desc' }"/>
+        <icon-sort-up :class="{ active: isActive && direction === 'asc' }" />
+        <icon-sort-down :class="{ active: isActive && direction === 'desc' }" />
       </div>
     </div>
   </th>

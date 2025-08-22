@@ -23,25 +23,25 @@ const loadMoreApartments = async () => {
         <th>Планировка</th>
         <th>Квартира</th>
         <sorting-th
-          text="S, м²"
-          field="area"
-          :active-field="sortField"
-          :direction="sortDirection"
-          @sort="setSort"
+            text="S, м²"
+            field="area"
+            :active-field="sortField"
+            :direction="sortDirection"
+            @sort="setSort"
         />
         <sorting-th
-          text="Этаж"
-          field="floor"
-          :active-field="sortField"
-          :direction="sortDirection"
-          @sort="setSort"
+            text="Этаж"
+            field="floor"
+            :active-field="sortField"
+            :direction="sortDirection"
+            @sort="setSort"
         />
         <sorting-th
-          text="Цена, ₽"
-          field="price"
-          :active-field="sortField"
-          :direction="sortDirection"
-          @sort="setSort"
+            text="Цена, ₽"
+            field="price"
+            :active-field="sortField"
+            :direction="sortDirection"
+            @sort="setSort"
         />
       </tr>
       </thead>
@@ -49,9 +49,9 @@ const loadMoreApartments = async () => {
       <tr v-for="apartment in filteredApartments" :key="apartment.id">
         <td class="layout-cell">
           <img
-            :src="apartment.layoutImage"
-            :alt="`Планировка ${apartment.rooms}к`"
-            class="layout-image"
+              :src="apartment.layoutImage"
+              :alt="`Планировка ${apartment.rooms}к`"
+              class="layout-image"
           />
         </td>
         <td>{{ apartment.name }}</td>
@@ -67,9 +67,9 @@ const loadMoreApartments = async () => {
 
     <div class="load-more">
       <button
-        @click="loadMoreApartments"
-        class="load-more-btn"
-        :disabled="isLoading"
+          @click="loadMoreApartments"
+          class="load-more-btn"
+          :disabled="isLoading"
       >
         {{ isLoading ? 'Загрузка...' : 'Загрузить еще' }}
       </button>
@@ -123,10 +123,10 @@ const loadMoreApartments = async () => {
 }
 
 .layout-image {
-  width: 8.125rem; /* 130px */
-  height: 5rem; /* 80px */
+  width: 8.125rem;
+  height: 5rem;
   object-fit: contain;
-  border-radius: 0.25rem; /* 4px */
+  border-radius: 0.25rem;
 }
 
 .floor-cell-from {
@@ -159,15 +159,26 @@ const loadMoreApartments = async () => {
 
 @media (max-width: 90rem) { /* 1440px */
   .apartments-table {
-    th, td { padding: 0.75rem 1rem; }
-    thead { font-size: 0.82rem; }
+    th, td {
+      padding: 0.75rem 1rem;
+    }
+
+    thead {
+      font-size: 0.82rem;
+    }
   }
 }
 
 @media (max-width: 60rem) { /* 960px */
   .apartments-table {
-    th, td { padding: 0.6rem 0.75rem; }
-    .layout-image { width: 7rem; height: 4.25rem; }
+    th, td {
+      padding: 0.6rem 0.75rem;
+    }
+
+    .layout-image {
+      width: 7rem;
+      height: 4.25rem;
+    }
   }
 }
 

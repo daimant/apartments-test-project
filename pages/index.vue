@@ -4,6 +4,7 @@ import { useApartmentsStore } from '@/stores/apartments'
 import Filters from '@/pages/components/filters/Filters.vue'
 import ApartmentsTable from '@/pages/components/table/Table.vue'
 import IconArrowTop from "@/assets/icons/IconArrowUp.vue";
+import { useRoute } from 'vue-router'
 
 const apartmentsStore = useApartmentsStore()
 
@@ -17,9 +18,11 @@ const handleScroll = () => {
   if (process.client) showScrollTop.value = window.scrollY > 300
 }
 
+const route = useRoute()
+
 onMounted(async () => {
   if (process.client) window.addEventListener('scroll', handleScroll)
-  await apartmentsStore.loadApartments()
+  await apartmentsStore.loadApartments(route.query)
 })
 
 onUnmounted(() => {
@@ -30,17 +33,17 @@ onUnmounted(() => {
 <template>
   <div class="app">
     <div class="content">
-      <apartments-table/>
-      <filters/>
+      <apartments-table />
+      <filters />
     </div>
 
     <button
-      v-show="showScrollTop"
-      @click="scrollToTop"
-      class="scroll-top-btn"
-      :class="{ visible: showScrollTop }"
+        v-show="showScrollTop"
+        @click="scrollToTop"
+        class="scroll-top-btn"
+        :class="{ visible: showScrollTop }"
     >
-      <icon-arrow-top/>
+      <icon-arrow-top />
     </button>
   </div>
 </template>
