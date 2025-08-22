@@ -2,7 +2,7 @@
 import SortingTh from "./components/SortingTh.vue";
 import { formatPrice } from "@/helpers/formatPrice";
 
-const { filteredApartments, isLoading, sortField, sortDirection } = storeToRefs(useApartmentsStore())
+const { filteredApartments, isLoading, sortField, sortDirection, apartments } = storeToRefs(useApartmentsStore())
 const { loadApartments, setSort } = useApartmentsStore()
 
 const loadMoreApartments = async () => {
@@ -17,7 +17,11 @@ const loadMoreApartments = async () => {
   <div>
     <header class="header">Квартиры</header>
 
-    <table class="apartments-table">
+    <div v-if="isLoading && !apartments.length" class="state-message">Данные ещё загружаются…</div>
+
+    <div v-else-if="!isLoading && filteredApartments.length === 0" class="state-message">По заданным параметрам ничего не найдено</div>
+
+    <table v-else class="apartments-table">
       <thead>
       <tr>
         <th>Планировка</th>
@@ -120,6 +124,12 @@ const loadMoreApartments = async () => {
     top: 0;
     z-index: 10;
   }
+}
+
+.state-message {
+  padding: 2rem 1.5rem;
+  background: var(--light-gray);
+  border-radius: var(--border-radius);
 }
 
 .layout-image {
