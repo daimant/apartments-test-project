@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from "vue";
+import { ref, computed, watch, nextTick } from "vue";
 import type { IApartment, IFilters } from "~/types/store";
+import { useRoute, useRouter } from 'vue-router'
 
 const defaultFilters = {
   selectedRooms: null,
@@ -9,9 +10,12 @@ const defaultFilters = {
 }
 
 export const useApartmentsStore = defineStore('apartments', () => {
+  const route = useRoute()
+  const router = useRouter()
   const apartments = ref<IApartment[]>([])
   const isLoading = ref(false)
   const filters = ref<IFilters>({ ...defaultFilters })
+  const isUrlSyncEnabled = ref(false)
   const sortField = ref<'area' | 'floor' | 'price' | null>(null)
   const sortDirection = ref<'asc' | 'desc'>('asc')
 
@@ -59,7 +63,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
     return filtered
   })
 
-  const setLimits = (query?: Record<string, any>) => {
+  const setLimits = () => {
     const prices = apartments.value.map(el => el.price)
     const areas = apartments.value.map(el => el.area)
 
@@ -70,23 +74,75 @@ export const useApartmentsStore = defineStore('apartments', () => {
 
     filters.value.priceRange.minLimit = newPriceMinLimit
     filters.value.priceRange.maxLimit = newPriceMaxLimit
-    filters.value.priceRange.min = newPriceMinLimit
-    filters.value.priceRange.max = newPriceMaxLimit
-
     filters.value.areaRange.minLimit = newAreaMinLimit
     filters.value.areaRange.maxLimit = newAreaMaxLimit
-    filters.value.areaRange.min = newAreaMinLimit
-    filters.value.areaRange.max = newAreaMaxLimit
+
+    if (filters.value.priceRange.min < newPriceMinLimit) {
+      filters.value.priceRange.min = newPriceMinLimit
+    }
+    if (filters.value.priceRange.max > newPriceMaxLimit) {
+      filters.value.priceRange.max = newPriceMaxLimit
+    }
+    if (filters.value.areaRange.min < newAreaMinLimit) {
+      filters.value.areaRange.min = newAreaMinLimit
+    }
+    if (filters.value.areaRange.max > newAreaMaxLimit) {
+      filters.value.areaRange.max = newAreaMaxLimit
+    }
   }
 
   const resetFilters = () => {
     filters.value.selectedRooms = null
 
-    if (!apartments.value.length) filters.value = { ...defaultFilters }
-    else setLimits()
+    if (!apartments.value.length) {
+      filters.value = { ...defaultFilters }
+    } else {
+      setLimits()
+      filters.value.priceRange.min = filters.value.priceRange.minLimit
+      filters.value.priceRange.max = filters.value.priceRange.maxLimit
+      filters.value.areaRange.min = filters.value.areaRange.minLimit
+      filters.value.areaRange.max = filters.value.areaRange.maxLimit
+    }
   }
 
-  const loadApartments = async (query?: Record<string, any>) => {
+  const applyFiltersFromUrl = (urlFilters: Partial<IFilters>) => {
+    isUpdatingFromUrl = true
+
+    if (urlFilters.selectedRooms !== undefined) {
+      filters.value.selectedRooms = urlFilters.selectedRooms
+    }
+
+    if (urlFilters.priceRange) {
+      filters.value.priceRange = {
+        ...filters.value.priceRange,
+        ...urlFilters.priceRange
+      }
+    }
+
+    if (urlFilters.areaRange) {
+      filters.value.areaRange = {
+        ...filters.value.areaRange,
+        ...urlFilters.areaRange
+      }
+    }
+
+    nextTick(() => {
+      isUpdatingFromUrl = false
+    })
+  }
+
+  let isUpdatingFromUrl = false
+
+  watch(filters, (newFilters) => {
+    if (!isUrlSyncEnabled.value || isUpdatingFromUrl) return
+
+    if (process.client) {
+      const { updateUrlWithFilters } = useUrlFilters(route, router)
+      updateUrlWithFilters(newFilters)
+    }
+  }, { deep: true })
+
+  const loadApartments = async () => {
     const mockData = await createMockData()
 
     try {
@@ -101,7 +157,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
         headers: { 'Content-Type': 'application/json', "X-Master-Key": xApiKey }
       }).then(res => res.json())
 
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${createRes.metadata.id}/latest/`, {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${ createRes.metadata.id }/latest/`, {
         headers: { "X-Master-Key": xApiKey }
       }).then(res => res.json())
 
@@ -113,7 +169,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
       apartments.value = [...apartments.value, ...mockData]
       console.error('Ошибка загрузки квартир:', error)
     } finally {
-      await setLimits(query)
+      await setLimits()
       isLoading.value = false
     }
   }
@@ -138,17 +194,21 @@ export const useApartmentsStore = defineStore('apartments', () => {
 
         mockApartments.push({
           id: nextId++,
-          name: `${rooms}-комнатная №${100 + apartments.value.length + mockApartments.length}`,
+          name: `${ rooms }-комнатная №${ 100 + apartments.value.length + mockApartments.length }`,
           rooms,
           area,
           floor,
           price,
-          layoutImage: `/images/layout-${rooms}k.png`
+          layoutImage: `/images/layout-${ rooms }k.png`
         })
       }
     }
 
     return mockApartments.slice(0, 20)
+  }
+
+  const enableUrlSync = () => {
+    isUrlSyncEnabled.value = true
   }
 
   return {
@@ -160,6 +220,8 @@ export const useApartmentsStore = defineStore('apartments', () => {
     sortDirection,
     setLimits,
     resetFilters,
+    applyFiltersFromUrl,
+    enableUrlSync,
     loadApartments,
     setSort
   }

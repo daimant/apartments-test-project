@@ -4,8 +4,12 @@ import { useApartmentsStore } from '@/stores/apartments'
 import Filters from '@/pages/components/filters/Filters.vue'
 import ApartmentsTable from '@/pages/components/table/Table.vue'
 import IconArrowTop from "@/assets/icons/IconArrowUp.vue";
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useUrlFilters } from '~/composables/useUrlFilters'
 
+const route = useRoute()
+const router = useRouter()
+const { getFiltersFromUrl } = useUrlFilters(route, router)
 const apartmentsStore = useApartmentsStore()
 
 const showScrollTop = ref(false)
@@ -18,11 +22,15 @@ const handleScroll = () => {
   if (process.client) showScrollTop.value = window.scrollY > 300
 }
 
-const route = useRoute()
-
 onMounted(async () => {
   if (process.client) window.addEventListener('scroll', handleScroll)
-  await apartmentsStore.loadApartments(route.query)
+
+  await apartmentsStore.loadApartments()
+
+  const urlFilters = getFiltersFromUrl()
+  apartmentsStore.applyFiltersFromUrl(urlFilters)
+
+  apartmentsStore.enableUrlSync()
 })
 
 onUnmounted(() => {

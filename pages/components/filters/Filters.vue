@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import RangeSlider from "./components/RangeSlider.vue";
 import IconCross from "@/assets/icons/IconCross.vue";
 import type { IRangeUpdateCallback } from "~/types/filters";
+import { useUrlFilters } from '~/composables/useUrlFilters';
+import { useRoute, useRouter } from 'vue-router'
 
+const route = useRoute()
+const router = useRouter()
 const { filters } = storeToRefs(useApartmentsStore())
 const { resetFilters } = useApartmentsStore()
+const { clearUrlFilters } = useUrlFilters(route, router)
 
 const selectRooms = (rooms: number) => {
   filters.value.selectedRooms = filters.value.selectedRooms === rooms ? null : rooms
@@ -49,7 +55,7 @@ const updateRange = (type: 'priceRange' | 'areaRange', value: IRangeUpdateCallba
     </div>
 
     <div class="reset-filters-btn-container">
-      <button @click="resetFilters" class="reset-filters-btn">
+      <button @click="() => { resetFilters(); clearUrlFilters(); }" class="reset-filters-btn">
         Сбросить параметры
         <IconCross />
       </button>
