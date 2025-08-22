@@ -15,3 +15,9 @@ export interface IFilters {
   priceRange: IRange
   areaRange: IRange
 }
+
+export interface IFiltersPartial {
+  selectedRooms?: number | null
+  priceRange?: Partial<IRange>
+  areaRange?: Partial<IRange>
+}

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed, watch, nextTick } from "vue";
-import type { IApartment, IFilters } from "~/types/store";
+import type { IApartment, IFilters, IFiltersPartial } from "~/types/store";
 import { useRoute, useRouter } from 'vue-router'
 
 const defaultFilters = {
@@ -105,7 +105,7 @@ export const useApartmentsStore = defineStore('apartments', () => {
     }
   }
 
-  const applyFiltersFromUrl = (urlFilters: Partial<IFilters>) => {
+  const applyFiltersFromUrl = (urlFilters: IFiltersPartial) => {
     isUpdatingFromUrl = true
 
     if (urlFilters.selectedRooms !== undefined) {

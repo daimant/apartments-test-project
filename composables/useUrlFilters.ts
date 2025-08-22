@@ -1,10 +1,10 @@
 import type { Router, RouteLocationNormalized } from 'vue-router'
-import type { IFilters } from '@/types/store'
+import type { IFilters, IFiltersPartial } from "~/types/store";
 
 export const useUrlFilters = (route: RouteLocationNormalized, router: Router) => {
-  const getFiltersFromUrl = (): Partial<IFilters> => {
+  const getFiltersFromUrl = (): IFiltersPartial => {
     const query = route.query
-    const filters: Partial<IFilters> = {}
+    const filters: IFiltersPartial = {}
 
     if (query.rooms) {
       const rooms = parseInt(query.rooms as string)
@@ -19,10 +19,8 @@ export const useUrlFilters = (route: RouteLocationNormalized, router: Router) =>
 
       if (min !== undefined || max !== undefined) {
         filters.priceRange = {
-          min: min ?? 0,
-          max: max ?? 20000000,
-          minLimit: 0,
-          maxLimit: 20000000
+          ...(min !== undefined ? { min } : {}),
+          ...(max !== undefined ? { max } : {})
         }
       }
     }
@@ -33,10 +31,8 @@ export const useUrlFilters = (route: RouteLocationNormalized, router: Router) =>
 
       if (min !== undefined || max !== undefined) {
         filters.areaRange = {
-          min: min ?? 0,
-          max: max ?? 100,
-          minLimit: 0,
-          maxLimit: 100
+          ...(min !== undefined ? { min } : {}),
+          ...(max !== undefined ? { max } : {})
         }
       }
     }
