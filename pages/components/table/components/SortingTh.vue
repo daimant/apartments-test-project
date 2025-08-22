@@ -7,17 +7,19 @@ import type { ISortThProps } from "~/types/table";
 const props = defineProps<ISortThProps>()
 defineEmits(['sort'])
 
+const { sortField, sortDirection } = storeToRefs(useApartmentsStore())
+const { setSort } = useApartmentsStore()
 
-const isActive = computed(() => props.activeField === props.field)
+const isActive = computed(() => sortField.value === props.field)
 </script>
 
 <template>
   <th>
-    <div class="sorting-th" @click="$emit('sort', field)">
+    <div class="sorting-th" @click="setSort(field)">
       <div :class="{ active: isActive }">{{ text }}</div>
       <div class="sort-icons-container">
-        <icon-sort-up :class="{ active: isActive && direction === 'asc' }" />
-        <icon-sort-down :class="{ active: isActive && direction === 'desc' }" />
+        <icon-sort-up :class="{ active: isActive && sortDirection === 'asc' }" />
+        <icon-sort-down :class="{ active: isActive && sortDirection === 'desc' }" />
       </div>
     </div>
   </th>

@@ -2,8 +2,8 @@
 import SortingTh from "./components/SortingTh.vue";
 import { formatPrice } from "@/helpers/formatPrice";
 
-const { filteredApartments, isLoading, sortField, sortDirection, apartments } = storeToRefs(useApartmentsStore())
-const { loadApartments, setSort } = useApartmentsStore()
+const { filteredApartments, isLoading, apartments } = storeToRefs(useApartmentsStore())
+const { loadApartments } = useApartmentsStore()
 
 const loadMoreApartments = async () => {
   isLoading.value = true
@@ -19,34 +19,18 @@ const loadMoreApartments = async () => {
 
     <div v-if="isLoading && !apartments.length" class="state-message">Данные ещё загружаются…</div>
 
-    <div v-else-if="!isLoading && filteredApartments.length === 0" class="state-message">По заданным параметрам ничего не найдено</div>
+    <div v-else-if="!isLoading && filteredApartments.length === 0" class="state-message">
+      По заданным параметрам ничего не найдено
+    </div>
 
     <table v-else class="apartments-table">
       <thead>
       <tr>
         <th>Планировка</th>
         <th>Квартира</th>
-        <sorting-th
-            text="S, м²"
-            field="area"
-            :active-field="sortField"
-            :direction="sortDirection"
-            @sort="setSort"
-        />
-        <sorting-th
-            text="Этаж"
-            field="floor"
-            :active-field="sortField"
-            :direction="sortDirection"
-            @sort="setSort"
-        />
-        <sorting-th
-            text="Цена, ₽"
-            field="price"
-            :active-field="sortField"
-            :direction="sortDirection"
-            @sort="setSort"
-        />
+        <sorting-th text="S, м²" field="area" />
+        <sorting-th text="Этаж" field="floor" />
+        <sorting-th text="Цена, ₽" field="price" />
       </tr>
       </thead>
       <tbody>
