@@ -42,14 +42,14 @@ onUnmounted(() => {
   <div class="app">
     <div class="content">
       <apartments-table />
-      <filters />
+      <filters class="filters-container" />
     </div>
 
     <button
-        v-show="showScrollTop"
-        @click="scrollToTop"
-        class="scroll-top-btn"
-        :class="{ visible: showScrollTop }"
+      v-show="showScrollTop"
+      @click="scrollToTop"
+      class="scroll-top-btn"
+      :class="{ visible: showScrollTop }"
     >
       <icon-arrow-top />
     </button>
@@ -108,6 +108,19 @@ onUnmounted(() => {
     .content {
       grid-template-columns: 1fr 19.875rem;
       gap: 1.75rem;
+    }
+  }
+}
+
+
+@media (max-width: 45rem) { // 720px
+  .app {
+    .content {
+      display: flex;
+
+      .filters-container {
+        display: none;
+      }
     }
   }
 }

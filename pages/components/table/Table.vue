@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import SortingTh from "./components/SortingTh.vue";
 import { formatPrice } from "@/helpers/formatPrice";
+import IconFilters from "assets/icons/IconFilters.vue";
+import Filters from "~/pages/components/filters/Filters.vue";
 
 const { filteredApartments, isLoading, apartments } = storeToRefs(useApartmentsStore())
 const { loadApartments } = useApartmentsStore()
+
+const isShowFiltersInTable = ref(false)
 
 const loadMoreApartments = async () => {
   isLoading.value = true
@@ -11,11 +15,17 @@ const loadMoreApartments = async () => {
   await loadApartments()
   isLoading.value = false
 }
+
+const showFiltersHandler = () => {
+  isShowFiltersInTable.value = !isShowFiltersInTable.value
+}
 </script>
 
 <template>
   <div>
     <header class="header">Квартиры</header>
+
+    <filters v-if="isShowFiltersInTable" class="filter-container" />
 
     <div v-if="isLoading && !apartments.length" class="state-message">Данные ещё загружаются…</div>
 
@@ -43,6 +53,7 @@ const loadMoreApartments = async () => {
           <sorting-th text="S, м²" field="area" />
           <sorting-th text="Этаж" field="floor" />
           <sorting-th text="Цена, ₽" field="price" />
+          <icon-filters @click="showFiltersHandler" class="filter-icon" />
         </th>
       </tr>
       </thead>
@@ -106,6 +117,28 @@ const loadMoreApartments = async () => {
   line-height: 1;
   font-weight: 700;
   margin: 0 0 3rem 1rem;
+}
+
+.filter-icon {
+  display: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.filter-container {
+  max-width: 19.875rem;
+  position: initial;
+  margin-bottom: 1rem;
+  display: none;
 }
 
 .apartments-table {
@@ -207,7 +240,7 @@ const loadMoreApartments = async () => {
   }
 }
 
-@media (max-width: 60rem) {
+@media (max-width: 60rem) { /* 960px */
   .header {
     margin: 0 0 1.5rem 0;
   }
@@ -265,11 +298,30 @@ const loadMoreApartments = async () => {
             .bottom {
               display: flex;
               gap: 1.25rem;
+              flex-wrap: wrap;
+
+              span {
+                white-space: nowrap;
+              }
             }
           }
         }
       }
     }
+  }
+}
+
+@media (max-width: 45rem) {
+  .header {
+    margin-left: 0;
+    margin-bottom: 1rem;
+  }
+  .filter-container {
+    display: block;
+  }
+
+  .filter-icon {
+    display: block;
   }
 }
 
