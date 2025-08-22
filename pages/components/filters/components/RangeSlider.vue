@@ -171,4 +171,14 @@ const updateMax = (event: Event) => {
     z-index: 4;
   }
 }
+
+
+@media (max-width: 64rem) { // 1024px
+  .range-container {
+    .range-result {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+  }
+}
 </style>

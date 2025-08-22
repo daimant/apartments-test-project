@@ -14,15 +14,13 @@ const isActive = computed(() => sortField.value === props.field)
 </script>
 
 <template>
-  <th>
-    <div class="sorting-th" @click="setSort(field)">
-      <div :class="{ active: isActive }">{{ text }}</div>
-      <div class="sort-icons-container">
-        <icon-sort-up :class="{ active: isActive && sortDirection === 'asc' }" />
-        <icon-sort-down :class="{ active: isActive && sortDirection === 'desc' }" />
-      </div>
+  <div class="sorting-th" @click="setSort(field)">
+    <div :class="{ active: isActive }">{{ text }}</div>
+    <div class="sort-icons-container">
+      <icon-sort-up :class="{ active: isActive && sortDirection === 'asc' }" />
+      <icon-sort-down :class="{ active: isActive && sortDirection === 'desc' }" />
     </div>
-  </th>
+  </div>
 </template>
 
 <style scoped lang="scss">

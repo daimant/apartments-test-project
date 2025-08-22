@@ -60,7 +60,7 @@ onUnmounted(() => {
 .app {
   padding: var(--block-padding) var(--inline-padding);
   margin: 0 auto;
-  max-width: 1440px;
+  max-width: 90rem;
   height: calc(100% - var(--block-padding));
   height: calc(100vh - var(--block-padding));
   max-height: calc(100% - var(--block-padding));
@@ -68,7 +68,7 @@ onUnmounted(() => {
 
   .content {
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 25rem;
     gap: 5rem;
     align-items: start;
   }
@@ -77,8 +77,8 @@ onUnmounted(() => {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    width: 50px;
-    height: 50px;
+    width: 3.125rem;
+    height: 3.125rem;
     background: var(--secondary-color);
     color: white;
     border: none;
@@ -88,7 +88,7 @@ onUnmounted(() => {
     transition: var(--transition);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px);
+    transform: translateY(1.25rem);
 
     &.visible {
       opacity: 1;
@@ -97,6 +97,17 @@ onUnmounted(() => {
 
     &:hover {
       background: color-mix(in srgb, var(--secondary-color) 85%, black 15%);
+    }
+  }
+}
+
+@media (max-width: 80rem) { // 1280px
+  .app {
+    padding: calc(var(--block-padding) / 2) calc(var(--inline-padding) / 2);
+
+    .content {
+      grid-template-columns: 1fr 19.875rem;
+      gap: 1.75rem;
     }
   }
 }

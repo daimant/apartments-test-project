@@ -28,9 +28,22 @@ const loadMoreApartments = async () => {
       <tr>
         <th>Планировка</th>
         <th>Квартира</th>
-        <sorting-th text="S, м²" field="area" />
-        <sorting-th text="Этаж" field="floor" />
-        <sorting-th text="Цена, ₽" field="price" />
+        <th>
+          <sorting-th text="S, м²" field="area" />
+        </th>
+        <th>
+          <sorting-th text="Этаж" field="floor" />
+        </th>
+        <th>
+          <sorting-th text="Цена, ₽" field="price" />
+        </th>
+      </tr>
+      <tr class="mobile-header">
+        <th>
+          <sorting-th text="S, м²" field="area" />
+          <sorting-th text="Этаж" field="floor" />
+          <sorting-th text="Цена, ₽" field="price" />
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -80,6 +93,10 @@ const loadMoreApartments = async () => {
   font-size: 1rem;
   table-layout: fixed;
 
+  .mobile-header {
+    display: none;
+  }
+
   thead, td {
     box-shadow: 0 0.0625rem 0 0 rgba(0, 0, 0, 0.1); /* 1px */
   }
@@ -102,7 +119,7 @@ const loadMoreApartments = async () => {
   }
 
   thead {
-    font-size: 0.88rem;
+    font-size: 0.875rem;
     background-color: white;
     position: sticky;
     top: 0;
@@ -134,7 +151,7 @@ const loadMoreApartments = async () => {
     padding: 0.5rem 1.5rem;
     border-radius: 1.5rem;
     font-size: 1rem;
-    border: 1px solid var(--gray-2);
+    border: 0.0625rem solid var(--gray-2);
     cursor: pointer;
     transition: var(--transition);
     background-color: white;
@@ -163,15 +180,31 @@ const loadMoreApartments = async () => {
   }
 }
 
-@media (max-width: 60rem) { /* 960px */
-  .apartments-table {
-    th, td {
-      padding: 0.6rem 0.75rem;
-    }
+@media (max-width: 80rem) {
+  .header {
+    margin: 0 0 1.5rem 0;
+  }
 
-    .layout-image {
-      width: 7rem;
-      height: 4.25rem;
+  .apartments-table {
+    thead {
+      box-shadow: none;
+
+      tr:not(.mobile-header) {
+        display: none;
+      }
+
+      .mobile-header {
+        display: block;
+      }
+
+      th {
+        padding: 0.5rem;
+        line-height: 1.25rem;
+        display: flex;
+        width: fit-content;
+        white-space: nowrap;
+        gap: 1.25rem;
+      }
     }
   }
 }

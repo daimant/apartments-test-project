@@ -134,18 +134,20 @@ const updateRange = (type: 'priceRange' | 'areaRange', value: IRangeUpdateCallba
   }
 }
 
-@media (max-width: 90rem) { /* 1440px */
+@media (max-width: 80rem) {
   .filters-section {
-    padding: 2rem;
-    gap: 1rem;
-  }
-}
+    padding: 1.25rem 1.1875rem;
 
-@media (max-width: 60rem) { /* 960px */
-  .filters-section {
-    position: static;
-    padding: 1.5rem;
-    gap: 0.75rem;
+    .filter-container {
+      :first-child {
+        font-size: 0.8125rem;
+        line-height: 1.25rem;
+      }
+    }
+
+    .reset-filters-btn-container {
+      height: 1.875rem;
+    }
   }
 }
 </style>
