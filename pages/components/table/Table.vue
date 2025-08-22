@@ -56,7 +56,7 @@ const loadMoreApartments = async () => {
             class="layout-image"
           />
         </td>
-        <td>{{ apartment.name }}</td>
+        <td class="bold-text">{{ apartment.name }}</td>
         <td>{{ apartment.area }}</td>
         <td>
           {{ apartment.floor }}
@@ -71,9 +71,9 @@ const loadMoreApartments = async () => {
             <div>{{ apartment.name }}</div>
 
             <div class="bottom">
-              <span>{{ apartment.area }}</span>
-              <span>{{ apartment.floor }}<span class="floor-cell-from"> из 17</span></span>
-              <span>{{ formatPrice(apartment.price) }}</span>
+              <span class="bold-text">{{ apartment.area }} м²</span>
+              <span class="bold-text">{{ apartment.floor }}<span class="floor-cell-from"> из 17 этаж</span></span>
+              <span class="bold-text">{{ formatPrice(apartment.price) }} ₽</span>
             </div>
           </div>
 
@@ -113,6 +113,11 @@ const loadMoreApartments = async () => {
   border-collapse: collapse;
   font-size: 1rem;
   table-layout: fixed;
+  font-weight: 400;
+
+  .bold-text {
+    font-weight: 500;
+  }
 
   .mobile-header, .mobile-body {
     display: none;
@@ -162,7 +167,8 @@ const loadMoreApartments = async () => {
 }
 
 .floor-cell-from {
-  color: var(--gray)
+  color: var(--gray);
+  font-weight: 400;
 }
 
 .load-more {
