@@ -46,13 +46,14 @@ const loadMoreApartments = async () => {
         </th>
       </tr>
       </thead>
+
       <tbody>
       <tr v-for="apartment in filteredApartments" :key="apartment.id">
         <td class="layout-cell">
           <nuxt-img
-              :src="apartment.layoutImage"
-              :alt="`Планировка ${apartment.rooms}к`"
-              class="layout-image"
+            :src="apartment.layoutImage"
+            :alt="`Планировка ${apartment.rooms}к`"
+            class="layout-image"
           />
         </td>
         <td>{{ apartment.name }}</td>
@@ -63,14 +64,34 @@ const loadMoreApartments = async () => {
         </td>
         <td>{{ formatPrice(apartment.price) }}</td>
       </tr>
+
+      <tr v-for="apartment in filteredApartments" :key="apartment.id" class="mobile-body">
+        <td>
+          <div class="text-block">
+            <div>{{ apartment.name }}</div>
+
+            <div class="bottom">
+              <span>{{ apartment.area }}</span>
+              <span>{{ apartment.floor }}<span class="floor-cell-from"> из 17</span></span>
+              <span>{{ formatPrice(apartment.price) }}</span>
+            </div>
+          </div>
+
+          <nuxt-img
+            :src="apartment.layoutImage"
+            :alt="`Планировка ${apartment.rooms}к`"
+            class="layout-image"
+          />
+        </td>
+      </tr>
       </tbody>
     </table>
 
     <div class="load-more">
       <button
-          @click="loadMoreApartments"
-          class="load-more-btn"
-          :disabled="isLoading"
+        @click="loadMoreApartments"
+        class="load-more-btn"
+        :disabled="isLoading"
       >
         {{ isLoading ? 'Загрузка...' : 'Загрузить еще' }}
       </button>
@@ -93,7 +114,7 @@ const loadMoreApartments = async () => {
   font-size: 1rem;
   table-layout: fixed;
 
-  .mobile-header {
+  .mobile-header, .mobile-body {
     display: none;
   }
 
@@ -180,7 +201,7 @@ const loadMoreApartments = async () => {
   }
 }
 
-@media (max-width: 80rem) {
+@media (max-width: 60rem) {
   .header {
     margin: 0 0 1.5rem 0;
   }
@@ -204,6 +225,43 @@ const loadMoreApartments = async () => {
         width: fit-content;
         white-space: nowrap;
         gap: 1.25rem;
+      }
+    }
+
+    tbody {
+      tr:not(.mobile-body) {
+        display: none;
+      }
+
+      .mobile-body {
+        display: block;
+
+        td {
+          font-size: 0.875rem;
+          box-shadow: none;
+          margin-bottom: 0.25rem;
+          padding: 1rem 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          border: 0.0625rem solid rgba(#000, 0.1);
+          border-radius: 0.5rem;
+
+          &:first-child {
+            margin-top: 0.25rem;
+          }
+
+          .text-block {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: left;
+
+            .bottom {
+              display: flex;
+              gap: 1.25rem;
+            }
+          }
+        }
       }
     }
   }
