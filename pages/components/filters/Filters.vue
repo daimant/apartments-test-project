@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import RangeSlider from "./components/RangeSlider.vue";
 import IconCross from "@/assets/icons/IconCross.vue";
+import type { IRangeUpdateCallback } from "~/types/range-slider";
 
 const { filters } = storeToRefs(useApartmentsStore())
 const { resetFilters } = useApartmentsStore()
@@ -22,10 +23,10 @@ const updateRange = (type: 'priceRange' | 'areaRange', value: { min: number; max
   <div class="filters-section">
     <div class="rooms-tabs">
       <button
-        v-for="room in [1, 2, 3, 4]"
-        :key="room"
-        @click="selectRooms(room)"
-        :class="['room-tab', { active: filters.selectedRooms === room }]"
+          v-for="room in [1, 2, 3, 4]"
+          :key="room"
+          @click="selectRooms(room)"
+          :class="['room-tab', { active: filters.selectedRooms === room }]"
       >
         {{ room }}к
       </button>
@@ -34,23 +35,23 @@ const updateRange = (type: 'priceRange' | 'areaRange', value: { min: number; max
     <div v-if="filters.priceRange" class="filter-container">
       <div>Стоимость квартиры, ₽</div>
       <RangeSlider
-        :modelValue="filters.priceRange"
-        @update:modelValue="val => updateRange('priceRange', val)"
+          :modelValue="filters.priceRange"
+          @update:modelValue="val => updateRange('priceRange', val as IRangeUpdateCallback)"
       />
     </div>
 
     <div v-if="filters.areaRange" class="filter-container">
       <div>Площадь, м²</div>
       <RangeSlider
-        :modelValue="filters.areaRange"
-        @update:modelValue="val => updateRange('areaRange', val)"
+          :modelValue="filters.areaRange"
+          @update:modelValue="val => updateRange('areaRange', val as IRangeUpdateCallback)"
       />
     </div>
 
     <div class="reset-filters-btn-container">
       <button @click="resetFilters" class="reset-filters-btn">
         Сбросить параметры
-        <IconCross/>
+        <IconCross />
       </button>
     </div>
   </div>

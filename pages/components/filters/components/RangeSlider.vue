@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { IRange } from "@/types/store";
+import type { IRange } from "@/types/range-slider";
 import { formatPrice } from "@/helpers/formatPrice";
 
 const emit = defineEmits<{ 'update:modelValue': [value: IRange] }>()

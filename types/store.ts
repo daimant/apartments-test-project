@@ -1,3 +1,5 @@
+import type { IRange } from "~/types/range-slider";
+
 export interface IApartment {
   id: number
   name: string
@@ -12,11 +14,4 @@ export interface IFilters {
   selectedRooms?: number | null,
   priceRange: IRange
   areaRange: IRange
-}
-
-export interface IRange {
-  min: number
-  max: number
-  minLimit: number
-  maxLimit: number
 }
